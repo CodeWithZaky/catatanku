@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Avatar } from "./avatar";
 import { ModeToggle } from "./mode-toggle";
 import { Sidebar } from "./sidebar";
 
@@ -32,7 +31,6 @@ const Navbar = () => {
             </Link>
           ))}
           <ModeToggle />
-          <Avatar />
         </div>
         <div className="block md:hidden">
           <Sidebar />
