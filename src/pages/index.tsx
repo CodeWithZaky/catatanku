@@ -1,12 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Image from "next/image";
 
 export default function Home() {
   const session = useSession();
-
-  console.log(session);
-  const imageUser = session.data?.user.image;
 
   return (
     <>
@@ -24,13 +20,6 @@ export default function Home() {
         )}
         <p>{session.data?.user.name}</p>
         <p>{session.data?.user.email}</p>
-        <p>{session.data?.user.role}</p>
-        <Image
-          src={imageUser ?? ""}
-          width={50}
-          height={50}
-          alt="Picture of the author"
-        />
       </div>
     </>
   );

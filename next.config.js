@@ -23,6 +23,9 @@ const config = {
       {
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        hostname: "utfs.io",
+      },
     ],
   },
 };

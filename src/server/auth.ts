@@ -8,11 +8,9 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
-import type { UserRole } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -24,19 +22,15 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
-      role: UserRole;
     };
   }
 
-  interface User {
-    role: UserRole;
-  }
+  interface User {}
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    role: UserRole;
   }
 }
 
@@ -53,10 +47,6 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60 * 24 * 7,
   },
   providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -87,7 +77,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid password");
         }
 
-        return user;
+        // Convert the id to a string before returning the object
+        return { ...user, id: String(user.id) };
       },
     }),
   ],
@@ -95,14 +86,12 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
-        session.user.role = token.role;
       }
       return session;
     },
