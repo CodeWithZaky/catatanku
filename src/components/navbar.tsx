@@ -73,12 +73,6 @@ const Navbar = () => {
                 <span>{session.user.name}</span>
               </div>
             )}
-            <Button
-              variant="ghost"
-              className="block w-full rounded-md px-3 py-2 text-left text-base font-medium"
-            >
-              Settings
-            </Button>
             {status === "authenticated" && (
               <Button
                 variant="ghost"
