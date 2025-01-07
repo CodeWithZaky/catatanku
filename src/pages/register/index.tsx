@@ -50,8 +50,6 @@ function Register() {
   const session = useSession();
   const { toast } = useToast();
 
-  if (session.status === "loading") return <Loading />;
-
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -61,6 +59,8 @@ function Register() {
       confirmPassword: "",
     },
   });
+
+  if (session.status === "loading") return <Loading />;
 
   const mutation = api.user.register.useMutation();
 

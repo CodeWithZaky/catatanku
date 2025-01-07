@@ -42,8 +42,6 @@ export default function LoginPage() {
   const { status } = useSession();
   const { toast } = useToast();
 
-  if (status === "loading") return <Loading />;
-
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -51,6 +49,8 @@ export default function LoginPage() {
       password: "",
     },
   });
+
+  if (status === "loading") return <Loading />;
 
   const onSubmit = async (data: LoginFormValues) => {
     setError(null);
