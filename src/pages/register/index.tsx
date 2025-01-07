@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/utils/api";
+import { useSession } from "next-auth/react";
 
 const registerSchema = z
   .object({
@@ -42,8 +44,14 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 function Register() {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const router = useRouter();
+  const session = useSession();
   const { toast } = useToast();
+
+  if (session.status === "loading") return <Loading />;
+
   const mutation = api.user.register.useMutation();
 
   const form = useForm<RegisterFormValues>({
@@ -58,6 +66,7 @@ function Register() {
 
   const onSubmit = async (data: RegisterFormValues) => {
     setError(null);
+    setLoading(true);
 
     try {
       await mutation.mutateAsync(
@@ -80,8 +89,9 @@ function Register() {
         },
       );
     } catch (err) {
-      console.error(err);
       setError("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -163,7 +173,7 @@ function Register() {
             </CardContent>
             <CardFooter className="flex flex-col gap-3">
               <Button type="submit" className="w-full">
-                Register
+                {loading ? "Loading..." : "Register"}
               </Button>
               <span className="text-sm text-muted-foreground">
                 Sudah punya akun?{" "}

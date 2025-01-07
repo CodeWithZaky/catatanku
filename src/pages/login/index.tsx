@@ -36,9 +36,13 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const router = useRouter();
   const { status } = useSession();
   const { toast } = useToast();
+
+  if (status === "loading") return <Loading />;
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -48,11 +52,9 @@ export default function LoginPage() {
     },
   });
 
-  if (status === "loading") return <Loading />;
-  if (status === "authenticated") router.push("/");
-
   const onSubmit = async (data: LoginFormValues) => {
     setError(null);
+    setLoading(true);
 
     try {
       const result = await signIn("credentials", {
@@ -72,6 +74,8 @@ export default function LoginPage() {
       }
     } catch (error) {
       setError("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,7 +127,7 @@ export default function LoginPage() {
             </CardContent>
             <CardFooter className="flex flex-col gap-3">
               <Button type="submit" className="w-full">
-                Login
+                {loading ? "Loading..." : "Masuk"}
               </Button>
               <span className="text-sm text-muted-foreground">
                 {"Belum punya akun? "}
