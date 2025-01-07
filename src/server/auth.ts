@@ -24,8 +24,6 @@ declare module "next-auth" {
       id: string;
     };
   }
-
-  interface User {}
 }
 
 declare module "next-auth/jwt" {

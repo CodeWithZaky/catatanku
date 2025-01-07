@@ -1,6 +1,7 @@
 "use client";
 
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
+import Loading from "@/components/loading";
 import { NoteModal } from "@/components/note-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +29,7 @@ export default function HomePage() {
 
   const deleteNoteMutation = api.note.delete.useMutation({
     onSuccess: () => {
-      notesQuery.refetch();
+      void notesQuery.refetch();
     },
   });
 
@@ -37,7 +38,7 @@ export default function HomePage() {
     title: string;
     content: string;
   }) => {
-    setCurrentNote(note || null);
+    setCurrentNote(note ?? null);
     setIsModalOpen(true);
   };
 
@@ -51,7 +52,7 @@ export default function HomePage() {
   };
 
   if (notesQuery.isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -66,7 +67,7 @@ export default function HomePage() {
       <ScrollArea className="h-[calc(100vh-12rem)]">
         {notesQuery.isLoading ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(6)].map((_, index) => (
+            {[1, 2, 3, 4, 5, 6].map((_, index) => (
               <Card key={index} className="shadow-lg">
                 <CardHeader>
                   <Skeleton className="h-6 w-2/3" />
@@ -103,12 +104,6 @@ export default function HomePage() {
                   >
                     <Pencil className="mr-2 h-4 w-4" /> Edit
                   </Button>
-                  {/* <Button
-                    variant="destructive"
-                    onClick={() => handleDeleteNote(note.id)}
-                  >
-                    <Trash2 className="mr-2 w-4 h-4" /> Delete
-                  </Button> */}
                   <DeleteNoteDialog
                     onDelete={() => handleDeleteNote(note.id)}
                   />

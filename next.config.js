@@ -21,9 +21,6 @@ const config = {
   images: {
     remotePatterns: [
       {
-        hostname: "lh3.googleusercontent.com",
-      },
-      {
         hostname: "utfs.io",
       },
     ],
