@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
 import { NotepadText, Pencil, PlusCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -25,13 +23,6 @@ export default function NoteForm() {
     content: string;
     code: string;
   } | null>(null);
-
-  const session = useSession();
-  const router = useRouter();
-
-  // if (session.status === "unauthenticated") {
-  //   router.push("/login");
-  // }
 
   const notesQuery = api.note.getAll.useQuery();
 

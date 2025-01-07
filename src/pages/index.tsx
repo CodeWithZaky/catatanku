@@ -22,8 +22,8 @@ export default function HomePage() {
             Catatanku
           </h1>
           <p className="mb-8 text-center text-xl leading-relaxed md:text-2xl">
-            "Kelola catatanmu dengan mudah, kapan saja, di mana saja. Sederhana,
-            cepat, dan aman."
+            {`"Kelola catatanmu dengan mudah, kapan saja, di mana saja. Sederhana,
+            cepat, dan aman."`}
           </p>
           <p className="mb-8 text-center text-2xl font-bold md:text-3xl">
             Mulai Sekarang
