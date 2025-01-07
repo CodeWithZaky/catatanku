@@ -14,7 +14,6 @@ import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -81,9 +80,6 @@ export default function LoginPage() {
           </CardFooter>
         </form>
         <CardFooter className="flex flex-col gap-3">
-          <Button onClick={() => signIn("google")} className="w-full">
-            Login With Google <FcGoogle className="ml-2" size={20} />
-          </Button>
           <span className="text-sm text-muted-foreground">
             {"Don't have an account? "}
             <Link href="/register" className="text-foreground underline">
