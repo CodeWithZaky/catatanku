@@ -82,6 +82,16 @@ const Navbar = () => {
                 Log out
               </Button>
             )}
+            {status === "unauthenticated" && (
+              <div className="flex flex-col">
+                <Link href="/login" className="px-3 py-2">
+                  <Button variant={"default"}>Login</Button>
+                </Link>
+                <Link href="/register" className="px-3 py-2">
+                  <Button variant={"outline"}>Register</Button>
+                </Link>
+              </div>
+            )}
             <div className="px-3 py-2">
               <ModeToggle />
             </div>

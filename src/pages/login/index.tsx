@@ -29,7 +29,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Email tidak valid" }),
-  password: z.string().min(6, { message: "Password minimal 6 karakter" }),
+  password: z.string().min(1, { message: "Password tidak boleh kosong" }),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -80,7 +80,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Login</CardTitle>

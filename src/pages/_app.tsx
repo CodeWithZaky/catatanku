@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <main
           className={clsx(
             GeistSans.className,
-            "container flex min-h-screen flex-col",
+            "flex min-h-screen flex-col md:container",
           )}
         >
           <Navbar />

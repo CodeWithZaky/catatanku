@@ -52,8 +52,6 @@ function Register() {
 
   if (session.status === "loading") return <Loading />;
 
-  const mutation = api.user.register.useMutation();
-
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -63,6 +61,8 @@ function Register() {
       confirmPassword: "",
     },
   });
+
+  const mutation = api.user.register.useMutation();
 
   const onSubmit = async (data: RegisterFormValues) => {
     setError(null);
@@ -96,7 +96,7 @@ function Register() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Register</CardTitle>

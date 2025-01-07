@@ -102,7 +102,7 @@ export default function NoteForm() {
                     <ReactMarkdown>{note.content}</ReactMarkdown>
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-end space-x-2">
+                <CardFooter className="flex flex-wrap justify-end gap-2">
                   <Button
                     variant="secondary"
                     onClick={() => handleOpenModal(note, "view")}

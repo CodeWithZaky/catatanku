@@ -11,7 +11,7 @@ export default function HomePage() {
 
   if (session.status === "unauthenticated") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-12 p-8 md:flex-row">
+      <div className="flex min-h-[70vh] flex-col items-center justify-center gap-12 p-8 md:flex-row lg:min-h-[80vh]">
         <motion.div
           className="flex max-w-2xl flex-col items-center justify-center"
           initial={{ opacity: 0, y: 20 }}
