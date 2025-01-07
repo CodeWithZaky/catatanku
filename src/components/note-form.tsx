@@ -1,5 +1,3 @@
-"use client";
-
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
 import Loading from "@/components/loading";
 import { NoteModal } from "@/components/note-modal";

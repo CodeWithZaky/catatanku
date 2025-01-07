@@ -1,5 +1,3 @@
-"use client";
-
 import { useTheme } from "next-themes";
 import { IoSunnyOutline } from "react-icons/io5";
 import { RxMoon } from "react-icons/rx";

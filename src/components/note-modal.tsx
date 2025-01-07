@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -86,7 +84,7 @@ export function NoteModal({
               <CardTitle>{note.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="prose-invert prose mx-auto">
+              <div className="prose prose-invert mx-auto">
                 <ReactMarkdown>{note.content}</ReactMarkdown>
               </div>
             </CardContent>
