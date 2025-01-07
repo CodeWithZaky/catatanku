@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <nav className="shadow-md">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto w-full px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
