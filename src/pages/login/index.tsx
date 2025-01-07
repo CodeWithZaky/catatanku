@@ -1,3 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,36 +16,62 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+
+const loginSchema = z.object({
+  email: z.string().email({ message: "Email tidak valid" }),
+  password: z.string().min(6, { message: "Password minimal 6 karakter" }),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-
   const router = useRouter();
   const { status } = useSession();
+  const { toast } = useToast();
+
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   if (status === "loading") return <Loading />;
   if (status === "authenticated") router.push("/");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginFormValues) => {
     setError(null);
 
     try {
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         redirect: false,
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       });
+
+      if (result?.error) {
+        setError("Login gagal. Periksa kembali email dan password Anda.");
+      } else {
+        toast({
+          title: "Login berhasil",
+          description: "Anda telah berhasil masuk ke akun Anda.",
+        });
+        router.push("/");
+      }
     } catch (error) {
-      setError("Login gagal. Periksa kembali email dan password Anda.");
+      setError("Terjadi kesalahan. Silakan coba lagi.");
     }
   };
 
@@ -48,45 +82,58 @@ export default function LoginPage() {
           <CardTitle>Login</CardTitle>
           <CardDescription>Masuk ke akun Anda</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nama@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="nama@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Password Anda"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </CardFooter>
-        </form>
-        <CardFooter className="flex flex-col gap-3">
-          <span className="text-sm text-muted-foreground">
-            {"Don't have an account? "}
-            <Link href="/register" className="text-foreground underline">
-              Register
-            </Link>
-          </span>
-        </CardFooter>
+              {error && <p className="text-sm text-red-500">{error}</p>}
+            </CardContent>
+            <CardFooter className="flex flex-col gap-3">
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                {"Belum punya akun? "}
+                <Link href="/register" className="text-foreground underline">
+                  Daftar
+                </Link>
+              </span>
+            </CardFooter>
+          </form>
+        </Form>
       </Card>
     </div>
   );

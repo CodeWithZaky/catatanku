@@ -3,21 +3,21 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Menu, Settings, User } from "lucide-react";
+import { ChevronDown, LogOut, Menu, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "./mode-toggle";
+import { Separator } from "./ui/separator";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="shadow-md">
+    <nav>
       <div className="mx-auto w-full px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -26,26 +26,21 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="hidden md:block">
-            <div className="ml-4 flex items-center space-x-4">
+            <div className="flex items-center gap-4">
               {status === "authenticated" && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="relative h-8 w-8 rounded-full"
-                    >
-                      <p>{session.user.name}</p>
+                    <Button variant="ghost">
+                      <div className="flex items-center gap-1">
+                        <p className="text-lg">{session.user.name}</p>
+                        <ChevronDown />
+                      </div>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuItem className="flex items-center">
                       <User className="mr-2 h-4 w-4" />
                       <span>{session.user.name}</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => signOut()}>
                       <LogOut className="mr-2 h-4 w-4" />
@@ -99,6 +94,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      <div className="w-full px-6">
+        <Separator orientation="horizontal" />
+      </div>
     </nav>
   );
 };

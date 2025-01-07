@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/utils/api";
 import { NotepadText, Pencil, PlusCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -82,7 +81,7 @@ export default function NoteForm() {
         </Button>
       </header>
 
-      <ScrollArea className="h-[calc(100vh-12rem)]">
+      <div>
         {notesQuery.isLoading ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((_, index) => (
@@ -129,7 +128,7 @@ export default function NoteForm() {
             ))}
           </div>
         )}
-      </ScrollArea>
+      </div>
 
       <NoteModal
         isOpen={isModalOpen}
