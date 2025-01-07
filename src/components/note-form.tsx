@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
 import { NotepadText, Pencil, PlusCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -24,8 +25,11 @@ export default function NoteForm() {
     code: string;
   } | null>(null);
 
-  const notesQuery = api.note.getAll.useQuery();
+  const { status } = useSession();
 
+  const notesQuery = api.note.getAll.useQuery(undefined, {
+    enabled: status === "authenticated",
+  });
   const deleteNoteMutation = api.note.delete.useMutation({
     onSuccess: () => {
       void notesQuery.refetch();
