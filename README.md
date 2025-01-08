@@ -1,7 +1,3 @@
-# t3stack-pages-auth-starter
-
-A starter template for building web applications with authentication using the T3 stack.
-
 ## Getting Started
 
 ### Environment Variables
@@ -12,20 +8,17 @@ DATABASE_URL="postgresql://postgres:<DB-PASSWORD>@localhost:<DB-PORT>/<DB-NAME>"
 
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="EXAMPLEa8s9c4eKgiEyTGL419dIGPE8ETDIybXsKwOQr7xoS9M03z"
-
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
 ```
 
 ### Clone the repository and install dependencies:
 
 Clone the project
 ```bash
-git clone https://github.com/CodeWithZaky/t3stack-pages-auth-starter.git
+git clone https://github.com/CodeWithZaky/catatanku.git
 ```
 Go to the project directory
 ```bash
-cd t3stack-pages-auth-starter
+cd catatanku
 ```
 Install dependencies
 ```bash
