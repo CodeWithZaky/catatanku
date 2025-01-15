@@ -75,7 +75,6 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid password");
         }
 
-        // Convert the id to a string before returning the object
         return { ...user, id: String(user.id) };
       },
     }),

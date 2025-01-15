@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const noteRouter = createTRPCRouter({
+  // CREATE NOTE
   create: protectedProcedure
     .input(
       z.object({
@@ -22,6 +23,7 @@ export const noteRouter = createTRPCRouter({
       return note;
     }),
 
+  // GET ALL NOTES
   getAll: protectedProcedure.query(async ({ ctx }) => {
     const notes = await ctx.db.note.findMany({
       where: { userId: Number(ctx.session.user.id) },
@@ -30,6 +32,7 @@ export const noteRouter = createTRPCRouter({
     return notes;
   }),
 
+  // GET NOTE BY ID
   getById: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input, ctx }) => {
@@ -45,6 +48,7 @@ export const noteRouter = createTRPCRouter({
       return note;
     }),
 
+  // UPDATE NOTE
   update: protectedProcedure
     .input(
       z.object({
@@ -69,6 +73,7 @@ export const noteRouter = createTRPCRouter({
       return updatedNote;
     }),
 
+  // DELETE NOTE
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
