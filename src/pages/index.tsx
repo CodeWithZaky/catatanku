@@ -1,3 +1,4 @@
+import Loading from "@/components/loading";
 import NoteForm from "@/components/note-form";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
@@ -8,6 +9,8 @@ import BG from "../../public/bg.png";
 
 export default function HomePage() {
   const session = useSession();
+
+  if (session.status === "loading") return <Loading />;
 
   if (session.status === "unauthenticated") {
     return (
