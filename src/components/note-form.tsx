@@ -1,5 +1,6 @@
 import { DeleteNoteDialog } from "@/components/delete-note-dialog";
 import Loading from "@/components/loading";
+import { NoNotesFound } from "@/components/no-notes-found";
 import { NoteModal } from "@/components/note-modal";
 import SkeletonCardNote from "@/components/skeleton-card-note";
 import { Button } from "@/components/ui/button";
@@ -86,42 +87,50 @@ export default function NoteForm() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {notesQuery.data?.map((note) => (
-              <Card
-                key={note.id}
-                className="shadow-lg transition-shadow duration-300 hover:shadow-xl"
-              >
-                <CardHeader>
-                  <CardTitle className="text-xl font-semibold">
-                    {note.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="line-clamp-3">
-                    <ReactMarkdown>{note.content}</ReactMarkdown>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-wrap justify-end gap-2">
-                  <Button
-                    variant="secondary"
-                    onClick={() => handleOpenModal(note, "view")}
-                  >
-                    <NotepadText className="mr-2 h-4 w-4" /> View
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleOpenModal(note, "edit")}
-                  >
-                    <Pencil className="mr-2 h-4 w-4" /> Edit
-                  </Button>
-                  <DeleteNoteDialog
-                    onDelete={() => handleDeleteNote(note.id)}
-                  />
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+          <>
+            {notesQuery.data && notesQuery.data.length <= 0 ? (
+              <div className="flex w-full items-center justify-center py-6">
+                <NoNotesFound handleOpenModal={handleOpenModal} />
+              </div>
+            ) : (
+              notesQuery.data?.map((note) => (
+                <div
+                  key={note.id}
+                  className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                >
+                  <Card className="shadow-lg transition-shadow duration-300 hover:shadow-xl">
+                    <CardHeader>
+                      <CardTitle className="text-xl font-semibold">
+                        {note.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="line-clamp-3">
+                        <ReactMarkdown>{note.content}</ReactMarkdown>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex flex-wrap justify-end gap-2">
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleOpenModal(note, "view")}
+                      >
+                        <NotepadText className="mr-2 h-4 w-4" /> View
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleOpenModal(note, "edit")}
+                      >
+                        <Pencil className="mr-2 h-4 w-4" /> Edit
+                      </Button>
+                      <DeleteNoteDialog
+                        onDelete={() => handleDeleteNote(note.id)}
+                      />
+                    </CardFooter>
+                  </Card>
+                </div>
+              ))
+            )}
+          </>
         )}
       </div>
 
