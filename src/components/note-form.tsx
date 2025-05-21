@@ -17,14 +17,16 @@ import { useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
+interface Note {
+  id: number;
+  title: string;
+  content: string;
+  code: string;
+}
+
 export default function NoteForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentNote, setCurrentNote] = useState<{
-    id: number;
-    title: string;
-    content: string;
-    code: string;
-  } | null>(null);
+  const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
   const { status } = useSession();
 

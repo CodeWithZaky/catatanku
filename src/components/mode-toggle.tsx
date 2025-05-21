@@ -1,7 +1,3 @@
-import { useTheme } from "next-themes";
-import { IoSunnyOutline } from "react-icons/io5";
-import { RxMoon } from "react-icons/rx";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +5,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useTheme } from "next-themes";
+import { IoSunnyOutline } from "react-icons/io5";
+import { RxMoon } from "react-icons/rx";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
