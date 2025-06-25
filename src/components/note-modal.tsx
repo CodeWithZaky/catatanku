@@ -17,7 +17,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 interface NoteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  note?: { id: number; title: string; content: string; code: string } | null;
+  note?: {
+    id: number;
+    title: string;
+    content: string;
+    code: string;
+    updatedAt: Date;
+  } | null;
   refetchNotes: () => void;
 }
 
@@ -68,7 +74,7 @@ export function NoteModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[50vw]">
         <DialogHeader>
           <DialogTitle>
             {note?.code === "view"
@@ -79,12 +85,22 @@ export function NoteModal({
           </DialogTitle>
         </DialogHeader>
         {note?.code === "view" ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>{note.title}</CardTitle>
+          <Card className="flex w-full flex-col items-start justify-center">
+            <CardHeader className="w-full">
+              <CardTitle className="flex items-center justify-start gap-3">
+                <>{note.title}</>
+                <span className="text-sm text-gray-500">
+                  {note.updatedAt.toLocaleDateString("id-ID", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                  })}
+                </span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="prose prose-invert mx-auto">
+              <div className="prose prose-invert mx-auto max-h-[calc(100vh-200px)] overflow-y-auto break-words">
+                {/* ☝️ Tambahkan max-h-[some-value] dan overflow-y-auto di sini */}
                 <ReactMarkdown>{note.content}</ReactMarkdown>
               </div>
             </CardContent>

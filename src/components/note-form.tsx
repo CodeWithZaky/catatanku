@@ -22,6 +22,7 @@ interface Note {
   title: string;
   content: string;
   code: string;
+  updatedAt: Date;
 }
 
 export default function NoteForm() {
@@ -44,6 +45,7 @@ export default function NoteForm() {
       id: number;
       title: string;
       content: string;
+      updatedAt: Date;
     },
     code?: string,
   ) => {
@@ -52,6 +54,7 @@ export default function NoteForm() {
       title: note?.title ?? "",
       content: note?.content ?? "",
       code: code ?? "",
+      updatedAt: note?.updatedAt ? new Date(note.updatedAt) : new Date(),
     };
     setCurrentNote(data ?? null);
     setIsModalOpen(true);
@@ -102,8 +105,15 @@ export default function NoteForm() {
                 >
                   <Card className="shadow-lg transition-shadow duration-300 hover:shadow-xl">
                     <CardHeader>
-                      <CardTitle className="text-xl font-semibold">
-                        {note.title}
+                      <CardTitle className="flex items-center justify-between border-b text-xl font-semibold">
+                        <>{note.title}</>
+                        <span className="text-sm text-gray-500">
+                          {note.updatedAt.toLocaleDateString("id-ID", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })}
+                        </span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
